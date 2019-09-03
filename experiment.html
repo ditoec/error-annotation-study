@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Annotating Social States of a Human in a Human-Robot Collaboration</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        <script src="jsPsych-master/jspsych.js"></script>
+        <script src="jsPsych-master/plugins/jspsych-fullscreen.js"></script>
+        <script src="jsPsych-master/plugins/jspsych-html-button-response.js"></script>
+        <script src="jsPsych-master/plugins/jspsych-video-button-response.js"></script>
+        <script src="jsPsych-master/plugins/jspsych-survey-text.js"></script>
+        <script src="jsPsych-master/plugins/jspsych-survey-multi-choice.js"></script>
+        <script src="jsPsych-master/plugins/jspsych-survey-likert.js"></script>
+        <script src="jsPsych-master/plugins/jspsych-html-keyboard-response.js"></script>
+		<script src="jsPsych-master/plugins/jspsych-image-keyboard-response.js"></script>
+        <link rel="stylesheet" href="js/jquery-ui.css"></link>
+        <link href="jsPsych-master/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    </head>
+    <body>
+    </body>
+    <script>
+	
+
+	var video_sets = [[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
+						[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
+						[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26],
+						[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27],
+						[5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+						[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
+						[7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],
+						[8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+						[9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],
+						[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],
+						[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],
+						[12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],
+						[13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],
+						[14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37],
+						[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38],
+						[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39],
+						[17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
+						[18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41],
+						[19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42],
+						[20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43],
+						[21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44],
+						[22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],
+						[23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46],
+						[24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47],
+						[25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],
+						[26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49],
+						[27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+						[28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1],
+						[29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2],
+						[30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3],
+						[31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4],
+						[32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5],
+						[33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6],
+						[34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7],
+						[35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8],
+						[36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9],
+						[37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10],
+						[38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11],
+						[39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12],
+						[40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13],
+						[41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+						[42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+						[43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+						[44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+						[45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
+						[46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],
+						[47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+						[48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],
+						[49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+						[50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+						[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
+						[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
+						[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26],
+						[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27],
+						[5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+						[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
+						[7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],
+						[8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+						[9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],
+						[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],
+						[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],
+						[12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],
+						[13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],
+						[14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37],
+						[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38],
+						[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39],
+						[17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
+						[18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41],
+						[19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42],
+						[20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43],
+						[21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44],
+						[22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],
+						[23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46],
+						[24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47],
+						[25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],
+						[26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49],
+						[27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+						[28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1],
+						[29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2],
+						[30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3],
+						[31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4],
+						[32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5],
+						[33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6],
+						[34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7],
+						[35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8],
+						[36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9],
+						[37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10],
+						[38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11],
+						[39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12],
+						[40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13],
+						[41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+						[42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+						[43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+						[44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+						[45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
+						[46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],
+						[47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+						[48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],
+						[49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+						[50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+						[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
+						[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
+						[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26],
+						[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27],
+						[5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+						[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
+						[7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],
+						[8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+						[9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],
+						[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],
+						[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],
+						[12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],
+						[13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],
+						[14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37],
+						[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38],
+						[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39],
+						[17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
+						[18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41],
+						[19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42],
+						[20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43],
+						[21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44],
+						[22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],
+						[23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46],
+						[24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47],
+						[25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],
+						[26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49],
+						[27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+						[28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1],
+						[29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2],
+						[30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3],
+						[31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4],
+						[32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5],
+						[33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6],
+						[34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7],
+						[35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8],
+						[36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9],
+						[37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10],
+						[38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11],
+						[39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12],
+						[40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13],
+						[41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+						[42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+						[43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+						[44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+						[45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
+						[46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],
+						[47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+						[48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],
+						[49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+						[50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+						[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
+						[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
+						[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26],
+						[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27],
+						[5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+						[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
+						[7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],
+						[8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+						[9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],
+						[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],
+						[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],
+						[12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],
+						[13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],
+						[14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37],
+						[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38],
+						[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39],
+						[17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
+						[18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41],
+						[19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42],
+						[20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43],
+						[21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44],
+						[22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],
+						[23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46],
+						[24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47],
+						[25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],
+						[26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49],
+						[27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+						[28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1],
+						[29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2],
+						[30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3],
+						[31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4],
+						[32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5],
+						[33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6],
+						[34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7],
+						[35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8],
+						[36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9],
+						[37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10],
+						[38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11],
+						[39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12],
+						[40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13],
+						[41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+						[42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+						[43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+						[44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+						[45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
+						[46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],
+						[47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+						[48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],
+						[49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+						[50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+						[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
+						[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
+						[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26],
+						[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27],
+						[5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+						[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
+						[7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],
+						[8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+						[9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],
+						[10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],
+						[11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],
+						[12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],
+						[13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],
+						[14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37],
+						[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38],
+						[16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39],
+						[17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
+						[18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41],
+						[19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42],
+						[20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43],
+						[21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44],
+						[22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],
+						[23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46],
+						[24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47],
+						[25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48],
+						[26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49],
+						[27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+						[28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1],
+						[29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2],
+						[30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3],
+						[31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4],
+						[32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5],
+						[33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6],
+						[34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7],
+						[35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8],
+						[36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9],
+						[37,38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10],
+						[38,39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11],
+						[39,40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12],
+						[40,41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13],
+						[41,42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+						[42,43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+						[43,44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+						[44,45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+						[45,46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
+						[46,47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],
+						[47,48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+						[48,49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],
+						[49,50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+						[50,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]];
+
+//get prolific ID
+    var url = new URL(window.location.href);
+    var prolific_id = url.searchParams.get("PROLIFIC_PID");
+//survey code from prolific
+    var survey_code = 'HX2EL9U7';
+//get video set counter
+	var counter = 0;
+	
+	$.get('data/counter.txt', function(data) {
+		counter = parseInt(data);
+		saveData("counter.txt",counter+1);
+    }, 'text');
+	
+	var video_set = video_sets[counter];	
+	
+    jsPsych.data.addProperties({
+      subject: prolific_id,
+	  video_set: counter,
+    });
+	
+//Open full screen window
+    var timeline = [];
+    timeline.push({
+      type: 'fullscreen',
+      fullscreen_mode: true
+    });
+//Welcome page
+    var welcome = {
+      type: "html-keyboard-response",
+      stimulus: "Welcome to the \'Annotating Social States of a Human in a Human-Robot Collaboration\' experiment. Your Prolific ID is " + prolific_id + ". Press any key to begin."
+    };
+    timeline.push(welcome);
+// Consent.
+     var consent_trial = {
+       type: 'html-button-response',
+       stimulus: '<p> Consent Form. <p>' + '<p> In this experiment you will watch videos of people interacting with a robot, from the robot\'s perspective.<p>' +
+       '<p> You will be asked questions about each video that you watch. <p>' +
+       '<p> Your responses will be anonymised and saved at the end of the experiment.<p>' +
+       '<p> You can withdraw from the experiment any time. You can withdraw by pressing the ESC button during the experiment, or by contacting the researchers after completing the experiment. <p>' +
+       '<p><strong> Please note: In order to receive payment for this study, you must complete the experiment properly. </strong></p>' +
+       '<p><strong> Your responses will be checked to ensure that you are not giving the same response on every question or answering randomly. </strong></p>' +
+       '<p><strong> If you have not responded properly we reserve the right to deny payment. </strong></p>' +
+       '<p> If you have any questions please contact Dito Cahya at dito.cahya@bristol.ac.uk or Madeleine Bartlett at madeleine.bartlett@plymouth.ac.uk <p>' +
+       '<p> <p>' + '<p> Please indicate below if you consent to participate in this study. (If you choose not to consent, press ESC to leave the experiment window.) <p>',
+       choices: ['I consent','I do not consent'],
+       on_finish: function(data){
+         if(data.button_pressed == 1){
+           jsPsych.endExperiment();
+           if(data.button_pressed == 0){
+             jsPsych.data.addProperties({
+               consent: "consent given"
+             });
+           }
+         }
+       }
+     };
+     timeline.push(consent_trial);
+
+//Instructions page
+  var instructions1 = {
+      type: "image-keyboard-response",
+	  stimulus: "working-area-complete.png",
+      prompt: "<p>During this experiment you will be shown 24 video clips with the duration between 5 to 30 seconds of a human collaborating with a robot.</p>" +
+      "<p>The videos were taken from the camera which was located on the robot's chest looking at the participant (Please see the picture above). Therefore, you will only see the human interactant in it. </p>" +
+	  "<p>Before the event in the video clips, the robot might have made a mistake in the form of instruction or behaviour that caused an error situation during the interaction. </p>" +
+	  "<p>Please note that you will not be able to hear the robot's utterances. The video will go silent when the robot is speaking. </p>" +
+	  "<p>We are interested to know whether you are able to see from the reaction of the human participant, whether an error situation has happened or not. </p>"+
+	  "<p>Before each video clip, we will give you some context information about what happened directly before the video.</p>"+
+      "<p><strong> Pay particular attention to the human behaviour, both verbal and non-verbal. </strong></p>"+
+      "<p> After each video you will be asked some questions: whether the participant experienced an error situation, whether the participant was engaged with the robot, how negative or positive was the participant's behaviour, how negative or positive was the participant's feeling, and how similar do you think the participant's understanding is to the robot\'s. <p/>",
+      choices: jsPsych.NO_KEYS,
+      trial_duration: 5000,
+    };
+    var instructions2 = {
+	  type: "image-keyboard-response",
+	  stimulus: "working-area-complete.png",
+      prompt: "<p>During this experiment you will be shown 24 video clips with the duration between 5 to 30 seconds of a human collaborating with a robot.</p>" +
+      "<p>The videos were taken from the camera which was located on the robot's chest looking at the participant (Please see the picture above). Therefore, you will only see the human interactant in it. </p>" +
+	  "<p>Before the event in the video clips, the robot might have made a mistake in the form of instruction or behaviour that caused an error situation during the interaction. </p>" +
+	  "<p>Please note that you will not be able to hear the robot's utterances. The video will go silent when the robot is speaking. </p>" +
+	  "<p>We are interested to know whether you are able to see from the reaction of the human participant, whether an error situation has happened or not. </p>"+
+	  "<p>Before each video clip, we will give you some context information about what happened directly before the video.</p>"+
+      "<p><strong> Pay particular attention to the human behaviour, both verbal and non-verbal. </strong></p>"+
+      "<p> After each video you will be asked some questions: whether the participant experienced an error situation, whether the participant was engaged with the robot, how negative or positive was the participant's behaviour, how negative or positive was the participant's feeling, and how similar do you think the participant's understanding is to the robot\'s. <p/>"+
+	  "<p>Press any key to begin. </p>",
+	};
+    //Pretrial
+    var pretrial = {
+      type: "html-keyboard-response",
+      stimulus: "<p> You are about to watch the next clip. </p>" +
+				"<p><strong> Pay particular attention to the human behaviour, both verbal and non-verbal. </strong></p>"+
+				"<p> After each video you will be asked some questions: whether the participant experienced an error situation, whether the participant was engaged with the robot, how negative or positive was the participant's behaviour, how negative or positive was the participant's feeling, and how similar do you think the participant's understanding is to the robot\'s. <p/>" +
+				"<p>Press any key to begin. </p>",
+    };
+	
+	var session1 = "<p>Video context: Directly before the video starts, the robot asked a question to the participant. </p>";
+	var session2 = "<p>Video context: Directly before the video starts, the robot gave an instruction to the participant. </p>";
+	var session3 = "<p>Video context: Directly before the video starts, the participant asked the robot to give an object to the participant.</p>";
+	var q_error = "<p>Did the participant experience an error situation?</p>";
+	
+    //Stimulus List
+    var vid_trials = [
+      { stimulus: "clips/"+video_set[0]+"/"+video_set[0]+"_02-nda.mp4", likert: false, participant: video_set[0], episode: "_02-nda.mp4", context: session1+q_error},
+      { stimulus: "clips/"+video_set[1]+"/"+video_set[1]+"_03ea.mp4" , likert: false, participant: video_set[1], episode: "_03ea.mp4", context: session1+q_error},
+      { stimulus: "clips/"+video_set[2]+"/"+video_set[2]+"_04ea.mp4" , likert: false, participant: video_set[2], episode: "_04ea.mp4", context: session1+q_error},
+	  { stimulus: "clips/"+video_set[3]+"/"+video_set[3]+"_05-nda.mp4" , likert: false, participant: video_set[3], episode: "_05-nda.mp4", context: session1+q_error},
+      { stimulus: "clips/"+video_set[4]+"/"+video_set[4]+"_06-boltnda.mp4" , likert: true, participant: video_set[4], episode: "_06-boltnda.mp4", context: session2+q_error},
+      { stimulus: "clips/"+video_set[5]+"/"+video_set[5]+"_07ea.mp4" , likert: true, participant: video_set[5], episode: "_07ea.mp4", context: session2+q_error},
+      { stimulus: "clips/"+video_set[6]+"/"+video_set[6]+"_06-nutnda.mp4" , likert: true, participant: video_set[6], episode: "_06-nutnda.mp4", context: session2+q_error},
+	  { stimulus: "clips/"+video_set[7]+"/"+video_set[7]+"_06-shownda.mp4" , likert: true, participant: video_set[7], episode: "_06-shownda.mp4", context: session2+q_error},
+      { stimulus: "clips/"+video_set[8]+"/"+video_set[8]+"_08ea.mp4" , likert: true, participant: video_set[8], episode: "_08ea.mp4", context: session2+q_error},
+      { stimulus: "clips/"+video_set[9]+"/"+video_set[9]+"_08-picknda.mp4" , likert: true, participant: video_set[9], episode: "_08-picknda.mp4", context: session2+q_error},
+      { stimulus: "clips/"+video_set[10]+"/"+video_set[10]+"_09ea.mp4" , likert: true, participant: video_set[10], episode: "_09ea.mp4", context: session2+q_error},
+      { stimulus: "clips/"+video_set[11]+"/"+video_set[11]+"_08-alignnda.mp4" , likert: true, participant: video_set[11], episode: "_08-alignnda.mp4", context: session2+q_error},
+      { stimulus: "clips/"+video_set[12]+"/"+video_set[12]+"_10ea.mp4" , likert: true, participant: video_set[12], episode: "_10ea.mp4", context: session2+q_error},
+      { stimulus: "clips/"+video_set[13]+"/"+video_set[13]+"_11ea.mp4" , likert: true, participant: video_set[13], episode: "_11ea.mp4", context: session2+q_error},
+      { stimulus: "clips/"+video_set[14]+"/"+video_set[14]+"_13-nda.mp4" , likert: true, participant: video_set[14], episode: "_13-nda.mp4", context: session3+q_error},
+      { stimulus: "clips/"+video_set[15]+"/"+video_set[15]+"_14ea.mp4" , likert: true, participant: video_set[15], episode: "_14ea.mp4", context: session3+q_error},
+      { stimulus: "clips/"+video_set[16]+"/"+video_set[16]+"_15-nda.mp4" , likert: true, participant: video_set[16], episode: "_15-nda.mp4", context: session3+q_error},
+      { stimulus: "clips/"+video_set[17]+"/"+video_set[17]+"_15ea.mp4" , likert: true, participant: video_set[17], episode: "_15ea.mp4", context: session3+q_error},
+      { stimulus: "clips/"+video_set[18]+"/"+video_set[18]+"_16ea.mp4" , likert: true, participant: video_set[18], episode: "_16ea.mp4", context: session3+q_error},
+	  { stimulus: "clips/"+video_set[19]+"/"+video_set[19]+"_16-nda.mp4" , likert: true, participant: video_set[19], episode: "_16-nda.mp4", context: session3+q_error},
+      { stimulus: "clips/"+video_set[20]+"/"+video_set[20]+"_17-nda.mp4" , likert: true, participant: video_set[20], episode: "_17-nda.mp4", context: session3+q_error},
+      { stimulus: "clips/"+video_set[21]+"/"+video_set[21]+"_18-nda.mp4" , likert: true, participant: video_set[21], episode: "_18-nda.mp4", context: session3+q_error},
+      { stimulus: "clips/"+video_set[22]+"/"+video_set[22]+"_17ea.mp4" , likert: true, participant: video_set[22], episode: "_17ea.mp4", context: session3+q_error},
+	  { stimulus: "clips/"+video_set[23]+"/"+video_set[23]+"_18ea.mp4" , likert: true, participant: video_set[23], episode: "_18ea.mp4", context: session3+q_error}
+    ];
+	
+//Video display
+  var video_stimulus = {
+      type: "video-button-response",
+      width: 1280,
+      height: 720,
+      prompt: jsPsych.timelineVariable('context'),
+	  choices: ['Yes','No'],
+      sources: [jsPsych.timelineVariable('stimulus')],
+	  data: {
+		participant: jsPsych.timelineVariable('participant'),
+		episode: jsPsych.timelineVariable('episode')
+	  },
+  };
+    
+//Scales for likert questions
+	var options_1 = ["Not engaged at all", "Slightly engaged", "Not Sure", "Engaged", "Highly engaged"];
+	var options_2 = ["Very negative", "Negative", "Not Sure", "Positive", "Very positive"];
+	var options_3 = ["Completely different", "Slightly different", "Not Sure", "Similar", "Exactly the same"];
+    var options_4 = ["Strongly Disagree", "Male", "Not Sure", "Female", "Strongly Agree"];
+  
+//Likert Questions
+    var likert = {
+      type: 'survey-likert',
+      questions: [{prompt: 'How engaged was the participant with their task?', labels: options_1, required: true},
+      {prompt: 'How positive or negative was the participant\'s behaviour? (e.g. were their movements aggressive (negative) or calm (positive)?)', labels: options_2, required: true},
+      {prompt: 'How positive or negative was the participant feeling? (e.g. were they sad/angry (negative) or happy/content (positive)?)', labels: options_2, required: true},
+      {prompt: 'Think about what the participant and the robot understand the current task to be. How similar do you think the participant\'s understanding is to the robot\'s?', labels: options_3, required: true},
+      {prompt: 'Were the people in the video male or female?', labels: options_4, required: true}],
+      preamble: "<p><strong>For the video you just watched please additionally rank the following:</strong></p>",
+	  data: {
+		participant: jsPsych.timelineVariable('participant'),
+		episode: jsPsych.timelineVariable('episode')
+	  },
+    };
+	
+//check Likert
+	var check_likert = {
+		timeline: [likert],
+		conditional_function: jsPsych.timelineVariable('likert') 
+	};
+
+//Trial Sequence
+    var trial_seq = {
+        timeline: [pretrial, video_stimulus, check_likert],
+        timeline_variables: vid_trials,
+        randomize_order: true
+    };
+	
+//Debrief and Thankyou
+    var debrief = {
+      type: "html-keyboard-response",
+      stimulus: "<p>Debrief.<br /> This study explores what types of information humans can gain from observing people's social signals in a human-robot interaction. <br /> We showed you the videos of people interacting with a robot from the robot's perspective. <br /> The last question we asked you in each video were to check how much attention you were paying to the videos and questions. We will use your responses to this question, as well as the rest of the survey, to assess whether you completed this experiment properly. <br /> If you have any questions please contact <strong>Dito Cahya at dito.cahya@bristol.ac.uk or Madeleine Bartlett at madeleine.bartlett@plymouth.ac.uk </strong><br /> Press any key to continue. </p>"
+    };
+    var thankyou = {
+    type: "html-keyboard-response",
+    choices: [13],
+    stimulus: "This is your Survey Completion Code. Please note this down and submit it to Prolific: " + survey_code + "<p>You have reached the end of the experiment.<br /> Thank you very much for participating!<br /> Press ESC to leave the experiment window.</p>"
+  };
+//Timeline
+  var timelineAssigned = [];
+  timelineAssigned = timeline.concat(instructions1, instructions2, trial_seq, debrief, thankyou);
+//Save Data
+  function saveData(filename, filedata){
+    $.ajax({
+      type:'post',
+      cache: false,
+      url: 'write_data.php',
+      data: {filename: filename, filedata: filedata}
+    });
+  }
+/* start the experiment */
+  jsPsych.init({
+    timeline: timelineAssigned,
+    on_trial_finish: function(){
+      saveData(counter+"_data.csv", jsPsych.data.get().csv());
+    }
+  });
+</script>
+</html>
